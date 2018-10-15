@@ -77,6 +77,13 @@ public class SignInFragment extends Fragment {
     @Override
     public void onDetach() {
         super.onDetach();
+
+        try {
+            KeyboardUtils.hideSoftKeyboard(getActivity());
+        } catch (NullPointerException exception) {
+            exception.printStackTrace();
+        }
+
         mListener = null;
     }
 
