@@ -10,6 +10,18 @@
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment1">Hello blank fragment</string>
     
+    <!-- Accessibility strings -->
+    <string name="password_visibility1">Widocznosc hasła</string>
+    
     <!-- NavigationView strings -->
     <string name="calendar">Kalendarz</string>
+    <string name="signing_in">Logowanie</string>
+    
+    <!-- UI strings -->
+    <string name="email">Adres e-mail</string>
+    <string name="password">Hasło</string>
+    <string name="sign_in_upper_case">ZALOGUJ SIĘ</string>
+    <string name="dont_u_have_an_acc_up_case">NIE MASZ KONTA?</string>
+    <string name="sign_up_up_case">ZAREJESTRUJ SIĘ</string>
+
 </resources>

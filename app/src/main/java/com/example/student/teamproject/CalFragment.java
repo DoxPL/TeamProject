@@ -80,7 +80,13 @@ public class CalFragment extends Fragment {
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        setTopBar(view);
+        try {
+            TopBarUtils.setTopBar(
+                    (AppCompatActivity) getActivity(), view, getString(R.string.calendar) );
+
+        } catch (NullPointerException e) {
+            Log.e(TAG, "Cannot get activity. @onViewCreated(..)");
+        }
     }
 
     // TODO: Rename method, update argument and hook method into UI event
@@ -122,15 +128,16 @@ public class CalFragment extends Fragment {
         void onFragmentInteraction(Uri uri);
     }
 
-    private void setTopBar(View view) {
-        AppCompatActivity activity = (AppCompatActivity) getActivity();
-
-        try {
-            ActionBar actionBar = activity.getSupportActionBar();
-
-            actionBar.setTitle(R.string.calendar);
-        } catch (NullPointerException exception) {
-            Log.e(TAG, "Cannot get actionBar. @setTopBar(..)");
-        }
-    }
 }
+
+//    private void setTopBar(View view) {
+//        AppCompatActivity activity = (AppCompatActivity) getActivity();
+//
+//        try {
+//            ActionBar actionBar = activity.getSupportActionBar();
+//
+//            actionBar.setTitle(R.string.calendar);
+//        } catch (NullPointerException exception) {
+//            Log.e(TAG, "Cannot get actionBar. @setTopBar(..)");
+//        }
+//    }

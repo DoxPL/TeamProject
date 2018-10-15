@@ -1,67 +1,46 @@
 package com.example.student.teamproject;
 
 public class NotesModel {
-    private int year;
-    private int month;
-    private int day;
-    private int hour;
-    private int minute;
+    private String date;
     private String title;
     private String description;
+    private boolean isEnabled;
 
-    public NotesModel(
-            int year, int month, int day, int hour, int minute,
-            String title, String description) {
+//    private int year;
+//    private int month;
+//    private int day;
+//    private int hour;
+//    private int minute;
+//            int year, int month, int day, int hour, int minute,
 
-        this.year = year;
-        this.month = month;
-        this.day = day;
-        this.hour = hour;
-        this.minute = minute;
+    public NotesModel(String date, String title, String description, boolean isEnabled) {
+
+        this.date = date;
         this.title = title;
         this.description = description;
+        this.isEnabled = isEnabled;
     }
 
-    public int getYear() {
-        return year;
+    public String toString() {
+        return "\nDate: " + date +
+                "\nTitle: " + title +
+                "\nDescription: " + description +
+                "\nisEnabled: " + isEnabled + "\n";
     }
 
-    public void setYear(int year) {
-        this.year = year;
+//        this.year = year;
+//        this.month = month;
+//        this.day = day;
+//        this.hour = hour;
+//        this.minute = minute;
+
+    public String getDate() {
+        return date;
     }
 
-    public int getMonth() {
-        return month;
+    public void setDate(String date) {
+        this.date = date;
     }
-
-    public void setMonth(int month) {
-        this.month = month;
-    }
-
-    public int getDay() {
-        return day;
-    }
-
-    public void setDay(int day) {
-        this.day = day;
-    }
-
-    public int getHour() {
-        return hour;
-    }
-
-    public void setHour(int hour) {
-        this.hour = hour;
-    }
-
-    public int getMinute() {
-        return minute;
-    }
-
-    public void setMinute(int minute) {
-        this.minute = minute;
-    }
-
     public String getTitle() {
         return title;
     }
@@ -77,5 +56,54 @@ public class NotesModel {
     public void setDescription(String description) {
         this.description = description;
     }
-//    NotesModel(int year, int month, int day, int hour, int minute, String title, String description)
+
+    public boolean isEnabled() {
+        return isEnabled;
+    }
+
+    public void setEnabled(boolean enabled) {
+        this.isEnabled = enabled;
+    }
 }
+
+//    NotesModel(int year, int month, int day, int hour, int minute, String title, String description)
+
+//    public int getYear() {
+//        return year;
+//    }
+//
+//    public void setYear(int year) {
+//        this.year = year;
+//    }
+//
+//    public int getMonth() {
+//        return month;
+//    }
+//
+//    public void setMonth(int month) {
+//        this.month = month;
+//    }
+//
+//    public int getDay() {
+//        return day;
+//    }
+//
+//    public void setDay(int day) {
+//        this.day = day;
+//    }
+//
+//    public int getHour() {
+//        return hour;
+//    }
+//
+//    public void setHour(int hour) {
+//        this.hour = hour;
+//    }
+//
+//    public int getMinute() {
+//        return minute;
+//    }
+//
+//    public void setMinute(int minute) {
+//        this.minute = minute;
+//    }
