@@ -1,5 +1,6 @@
 package com.example.student.teamproject;
 
+import android.app.VoiceInteractor;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.ContactsContract;
@@ -7,24 +8,39 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
+import android.text.method.PasswordTransformationMethod;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.EditText;
+import android.widget.Toast;
 
-import java.util.ArrayList;
+import com.android.volley.AuthFailureError;
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+
+import java.io.UnsupportedEncodingException;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class SignInFragment extends Fragment {
     private static final String TAG = "SignInFragment";
 
     private OnFragmentInteractionListener mListener;
+    private List<NotesModel> notesList;
 
     // default constructor
     public SignInFragment() {
     }
-
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -48,9 +64,7 @@ public class SignInFragment extends Fragment {
             Log.e(TAG, "Cannot get activity. @onViewCreated(..)");
         }
 
-        Button getListBut = (Button) getActivity().findViewById(R.id.sign_in_get_list_button);
         SqliteDbUtils db = new SqliteDbUtils(getContext());
-        List<NotesModel> list;
 
         db.addItem("date", "title1", "desc", true);
         db.addItem("date", "title2", "desc", true);
@@ -62,16 +76,9 @@ public class SignInFragment extends Fragment {
         db.deleteItem("date", "title3");
         db.deleteItem("date", "title4");
 
-        list = db.getList();
+        notesList = db.getList();
 
-        final List<NotesModel> fList = list;
-        getListBut.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Log.d("list", fList.toString());
-                Log.d("list.size", "" + fList.size());
-            }
-        });
+        setButtons();
     }
 
     @Override
@@ -81,10 +88,139 @@ public class SignInFragment extends Fragment {
         try {
             KeyboardUtils.hideSoftKeyboard(getActivity());
         } catch (NullPointerException exception) {
+            Log.e(TAG, "Cannot get activity. @onDetach(..)");
             exception.printStackTrace();
         }
 
         mListener = null;
+    }
+
+    private void setButtons() {
+        Button getListBut = (Button) getActivity().findViewById(R.id.sign_in_get_list_button_id);
+        Button eyeButton = (Button) getActivity().findViewById(R.id.sign_in_eye_button_id);
+        final EditText emailInput =
+                (EditText) getActivity().findViewById(R.id.sign_in_email_input_id);
+        final EditText passwordInput =
+                (EditText) getActivity().findViewById(R.id.sign_in_password_input_id);
+        Button signInButton = (Button) getActivity().findViewById(R.id.sign_in_login_button_id);
+
+
+        final List<NotesModel> fList = notesList;
+        getListBut.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Log.d("list", fList.toString());
+                Log.d("list.size", "" + fList.size());
+            }
+        });
+
+        eyeButton.setOnClickListener(new View.OnClickListener() {
+            boolean isClicked = false;
+
+            @Override
+            public void onClick(View view) {
+                if (!isClicked) {
+                    passwordInput.setTransformationMethod(null);
+                    isClicked = true;
+                } else {
+                    passwordInput.setTransformationMethod(new PasswordTransformationMethod());
+                    isClicked = false;
+                }
+
+                passwordInput.setSelection(passwordInput.getText().length());
+            }
+        });
+
+        signInButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String email = emailInput.getText().toString();
+                String password = passwordInput.getText().toString();
+
+                signIn(email, password);
+            }
+        });
+    }
+
+    private void signIn(final String email, final String password) {
+        if (email.equals("root") && password.equals("foobar")) {
+            Toast.makeText(getContext(), "Poprawne dane logowania", Toast.LENGTH_LONG).show();
+        } else {
+            Toast.makeText(
+                    getContext(), "Niepoprawne dane logowania", Toast.LENGTH_LONG).show();
+        }
+
+        String apiUrl = getString(R.string.calendar_api_link1);
+
+        if (getContext() != null) {
+            Object queue = Volley.newRequestQueue(getContext());
+
+            StringRequest postRequest = new StringRequest(Request.Method.POST, apiUrl,
+
+                    new Response.Listener<String>() {
+                        @Override
+                        public void onResponse(String response) {
+                            try {
+                                Log.d(TAG, "UserResponse: " + response);
+//                                Gson gson = new GsonBuilder().create();
+//                                UserModel feed = gson.fromJson(response, UserModel.class);
+//
+//                                if (feed.data != null) {
+//                                    UserModel.id = feed.data.id
+//                                    UserModel.name = "${feed.data.first_name} ${feed.data.last_name}"
+//                                    UserModel.email = feed.data.email
+//                                }
+
+                            } catch (Exception exception) {
+                                Log.e(TAG, "@onResponse(..)");
+                                exception.printStackTrace();
+                            }
+                        }
+
+                    },
+
+                    new Response.ErrorListener() {
+                        @Override
+                        public void onErrorResponse(VolleyError error) {
+                            String errorText = "Błąd połączenia z serwerem.";
+                            Toast.makeText(getContext(), errorText, Toast.LENGTH_LONG).show();
+
+//                            String body = "";
+//                            //get status code here
+//                            String statusCode = String.valueOf(error.networkResponse.statusCode);
+//                            //get response body and parse with appropriate encoding
+//
+//                            if(error.networkResponse.data!=null) {
+//                                try {
+//                                    body = new String(
+//                                            error.networkResponse.data,"UTF-8");
+//                                } catch (UnsupportedEncodingException e) {
+//                                    e.printStackTrace();
+//                                }
+//                            }
+//
+//                            Log.d(TAG, "Body: " + body + " @onErrorResponse(..)");
+                        }
+                    }) {
+
+                @Override
+                protected Map<String, String> getParams() throws AuthFailureError {
+                    Map<String, String> params = new HashMap<String, String>();
+
+                    params.put("login", email);
+                    params.put("passwd", password);
+
+                    Log.d(TAG, "Params: " + params + " @getParams()");
+
+                    return params;
+                }
+            };
+            ((RequestQueue) queue).add(postRequest);
+
+        } else {
+            Log.e(TAG, "Response: context is null. @signIn(..)");
+        }
+
     }
 
     /**
