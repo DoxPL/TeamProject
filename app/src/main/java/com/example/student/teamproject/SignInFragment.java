@@ -177,10 +177,10 @@ public class SignInFragment extends Fragment {
 
     private void signIn(final String email, final String password) {
         if (email.equals("root") && password.equals("foobar")) {
-            Toast.makeText(getContext(), "Poprawne dane logowania", Toast.LENGTH_LONG).show();
+            Toast.makeText(getContext(), R.string.correct_login_data, Toast.LENGTH_LONG).show();
         } else {
             Toast.makeText(
-                    getContext(), "Niepoprawne dane logowania", Toast.LENGTH_LONG).show();
+                    getContext(), R.string.incorrect_login_data, Toast.LENGTH_LONG).show();
         }
 
         String apiUrl = getString(R.string.calendar_api_link1);
@@ -218,6 +218,7 @@ public class SignInFragment extends Fragment {
                             String errorText = "Błąd połączenia z serwerem.";
                             Toast.makeText(getContext(), errorText, Toast.LENGTH_LONG).show();
 
+                            Log.e(TAG, error.toString());
 //                            String body = "";
 //                            //get status code here
 //                            String statusCode = String.valueOf(error.networkResponse.statusCode);

@@ -7,11 +7,16 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v7.app.AppCompatActivity;
+import android.text.method.PasswordTransformationMethod;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.EditText;
+import android.widget.Toast;
+
+import java.util.regex.Pattern;
 
 public class SignUpFragment extends Fragment {
     private static final String TAG = "SignUpFragment";
@@ -76,16 +81,66 @@ public class SignUpFragment extends Fragment {
     private void setButtons() {
         try {
             Button signUpBut = (Button) getActivity().findViewById(R.id.sign_up_button);
+            Button eyeButton = (Button) getActivity().findViewById(R.id.sign_up_eye_button);
+            final EditText emailInput =
+                    (EditText) getActivity().findViewById(R.id.sign_up_email_input);
+            final EditText passwordInput =
+                    (EditText) getActivity().findViewById(R.id.sign_up_password_input);
+            final EditText passwordRepInput =
+                    (EditText) getActivity().findViewById(R.id.sign_up_password_rep_input);
 
-            signUpBut.setOnClickListener(new View.OnClickListener() {
+            eyeButton.setOnClickListener(new View.OnClickListener() {
+                boolean isClicked = false;
+
                 @Override
                 public void onClick(View view) {
+                    if (!isClicked) {
+                        passwordInput.setTransformationMethod(null);
+                        isClicked = true;
+                    } else {
+                        passwordInput.setTransformationMethod(new PasswordTransformationMethod());
+                        isClicked = false;
+                    }
 
+                    passwordInput.setSelection(passwordInput.getText().length());
+                }
+            });
+
+            signUpBut.setOnClickListener(new View.OnClickListener() {
+                String email;
+                String password;
+                String passwordRep;
+
+                @Override
+                public void onClick(View view) {
+                    email = emailInput.getText().toString();
+                    password = passwordInput.getText().toString();
+                    passwordRep = passwordRepInput.getText().toString();
+
+                    userDataValidation(email, password, passwordRep);
                 }
             });
         } catch (NullPointerException exception) {
             Log.e(TAG, "Some button is null. @setButtons()");
             exception.printStackTrace();
+        }
+    }
+
+    private void userDataValidation(String email, String password, String passwordRep) {
+        Pattern emailPattern =
+                Pattern.compile("\\A[\\w\\-.+]+@[a-z\\d\\-]+(\\.[a-z\\d\\-]+)*\\.[a-z]+\\z");
+
+//        bartek.andrzej@ss3-tg.com.dsd
+//        daniel.galion94@gmail.com
+
+        boolean isEmailCorrect = emailPattern.matcher(email).matches();
+        boolean isPasswordCorrect = password.length() >= 6;
+        boolean isPasswordRepCorrect = password.equals(passwordRep);
+
+        if (isEmailCorrect && isPasswordCorrect && isPasswordRepCorrect) {
+            Toast.makeText(getContext(), R.string.correct_login_data, Toast.LENGTH_LONG).show();
+        } else {
+            Toast.makeText(getContext(), R.string.incorrect_login_data, Toast.LENGTH_LONG).show();
         }
     }
 

@@ -8,10 +8,10 @@
     <string name="action_settings">Settings</string>
     
     <!-- Custom APIs -->
-    <string name="calendar_api_link1">https://danielapi.chost.pl/calendar-api.php</string>
+    <!--<string name="calendar_api_link1">https://danielapi.chost.pl/calendar-api.php</string>-->
     <!--<string name="calendar_api_link1">https://api.letsbuildthatapp.com/youtube/home_feed</string>-->
     <!--<string name="calendar_api_link1">http://pcb.chost.pl/app/login.php</string>-->
-    <!--<string name="calendar_api_link1">https://xor.math.uni.lodz.pl/~daniel_g/calendar-api.php</string>-->
+    <string name="calendar_api_link1">http://xor.math.uni.lodz.pl/~daniel_g/calendar-api.php</string>
     
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment1">Hello blank fragment</string>
@@ -31,5 +31,7 @@
     <string name="sign_up_up_case">ZAREJESTRUJ SIĘ</string>
     <string name="repeat_password">Powtórz hasło</string>
     <string name="registration">Rejestracja</string>
+    <string name="correct_login_data">Poprawne dane logowania</string>
+    <string name="incorrect_login_data">Niepoprawne dane logowania</string>
 
 </resources>
