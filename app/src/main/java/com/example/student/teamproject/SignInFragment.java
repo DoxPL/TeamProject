@@ -1,12 +1,13 @@
 package com.example.student.teamproject;
 
-import android.app.VoiceInteractor;
 import android.net.Uri;
 import android.os.Bundle;
-import android.provider.ContactsContract;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.text.method.PasswordTransformationMethod;
 import android.util.Log;
@@ -27,7 +28,6 @@ import com.android.volley.toolbox.Volley;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
-import java.io.UnsupportedEncodingException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -53,8 +53,17 @@ public class SignInFragment extends Fragment {
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        View fragmentSignInView = (View) getActivity().findViewById(R.id.fragment_sign_in_id);
-        KeyboardUtils.setupKeyboardVisibility(fragmentSignInView, getActivity());
+        try {
+            View fragmentSignInView = (View) getActivity().findViewById(R.id.fragment_sign_in_id);
+
+            if (fragmentSignInView != null) {
+                KeyboardUtils.setupKeyboardVisibility(fragmentSignInView, getActivity());
+            }
+
+        } catch (NullPointerException exception) {
+            Log.e(TAG, "Fragment view is null. @onViewCreated(..)");
+            exception.printStackTrace();
+        }
 
         try {
             TopBarUtils.setTopBar(
@@ -86,7 +95,11 @@ public class SignInFragment extends Fragment {
         super.onDetach();
 
         try {
-            KeyboardUtils.hideSoftKeyboard(getActivity());
+            FragmentActivity activity = getActivity();
+
+            if (activity != null) {
+                KeyboardUtils.hideSoftKeyboard(getActivity());
+            }
         } catch (NullPointerException exception) {
             Log.e(TAG, "Cannot get activity. @onDetach(..)");
             exception.printStackTrace();
@@ -96,50 +109,70 @@ public class SignInFragment extends Fragment {
     }
 
     private void setButtons() {
-        Button getListBut = (Button) getActivity().findViewById(R.id.sign_in_get_list_button_id);
-        Button eyeButton = (Button) getActivity().findViewById(R.id.sign_in_eye_button_id);
-        final EditText emailInput =
-                (EditText) getActivity().findViewById(R.id.sign_in_email_input_id);
-        final EditText passwordInput =
-                (EditText) getActivity().findViewById(R.id.sign_in_password_input_id);
-        Button signInButton = (Button) getActivity().findViewById(R.id.sign_in_login_button_id);
+        try {
+            Button getListBut =
+                    (Button) getActivity().findViewById(R.id.sign_in_get_list_button_id);
+            Button eyeButton = (Button) getActivity().findViewById(R.id.sign_in_eye_button_id);
+            final EditText emailInput =
+                    (EditText) getActivity().findViewById(R.id.sign_in_email_input_id);
+            final EditText passwordInput =
+                    (EditText) getActivity().findViewById(R.id.sign_in_password_input_id);
+            Button signInButton = (Button) getActivity().findViewById(R.id.sign_in_login_button_id);
+            Button signupButton =
+                    (Button) getActivity().findViewById(R.id.sign_in_sign_up_button_id);
 
 
-        final List<NotesModel> fList = notesList;
-        getListBut.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Log.d("list", fList.toString());
-                Log.d("list.size", "" + fList.size());
-            }
-        });
-
-        eyeButton.setOnClickListener(new View.OnClickListener() {
-            boolean isClicked = false;
-
-            @Override
-            public void onClick(View view) {
-                if (!isClicked) {
-                    passwordInput.setTransformationMethod(null);
-                    isClicked = true;
-                } else {
-                    passwordInput.setTransformationMethod(new PasswordTransformationMethod());
-                    isClicked = false;
+            final List<NotesModel> fList = notesList;
+            getListBut.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Log.d("list", fList.toString());
+                    Log.d("list.size", "" + fList.size());
                 }
+            });
 
-                passwordInput.setSelection(passwordInput.getText().length());
-            }
-        });
+            eyeButton.setOnClickListener(new View.OnClickListener() {
+                boolean isClicked = false;
 
-        signInButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                String email = emailInput.getText().toString();
-                String password = passwordInput.getText().toString();
+                @Override
+                public void onClick(View view) {
+                    if (!isClicked) {
+                        passwordInput.setTransformationMethod(null);
+                        isClicked = true;
+                    } else {
+                        passwordInput.setTransformationMethod(new PasswordTransformationMethod());
+                        isClicked = false;
+                    }
 
-                signIn(email, password);
-            }
-        });
+                    passwordInput.setSelection(passwordInput.getText().length());
+                }
+            });
+
+            signInButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    String email = emailInput.getText().toString();
+                    String password = passwordInput.getText().toString();
+
+                    signIn(email, password);
+                }
+            });
+
+            signupButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Fragment fragment = new SignUpFragment();
+                    FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+                    FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                    fragmentTransaction.replace(R.id.contentContainer, fragment);
+                    fragmentTransaction.addToBackStack(null);
+                    fragmentTransaction.commit();
+                }
+            });
+        } catch (NullPointerException exception) {
+            Log.e(TAG, "Some button is null. @setButtons()");
+            exception.printStackTrace();
+        }
     }
 
     private void signIn(final String email, final String password) {

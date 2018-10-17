@@ -1,7 +1,7 @@
 package com.example.student.teamproject;
 
-import android.net.Uri;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
@@ -16,7 +16,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.webkit.WebView;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -30,15 +29,6 @@ public class MainActivity extends AppCompatActivity
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });
-
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
 
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -51,19 +41,45 @@ public class MainActivity extends AppCompatActivity
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
-//        WebView webView = (WebView) findViewById(R.id.web_view);
-//        webView.loadUrl("https://api.letsbuildthatapp.com/youtube/home_feed");
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        Fragment fragment = new CalFragment();
+        fragmentManager
+                .beginTransaction()
+                .replace(R.id.contentContainer, fragment)
+                .addToBackStack(null)
+                .commit();
     }
+
+    //        WebView webView = (WebView) findViewById(R.id.web_view);
+//        webView.loadUrl("https://api.letsbuildthatapp.com/youtube/home_feed");
+
+//        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+//        fab.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
+//                        .setAction("Action", null).show();
+//            }
+//        });
 
     @Override
     public void onBackPressed() {
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
+
         } else {
+            int backStackCount = getSupportFragmentManager().getBackStackEntryCount();
+
+            if (backStackCount == 1) {
+                super.onBackPressed();
+            }
+
             super.onBackPressed();
         }
     }
+
+//            Log.d(TAG, "backStackCount: " + backStackCount + " @onBackPressed()");
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -89,25 +105,39 @@ public class MainActivity extends AppCompatActivity
 
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
-    public boolean onNavigationItemSelected(MenuItem item) {
+    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         // Handle navigation view item clicks here.
         int id = item.getItemId();
         Fragment fragment = null;
-        switch(id)
-        {
+        String title = null;
+
+        try {
+            title = getSupportActionBar().getTitle().toString();
+        } catch (Exception exception) {
+            Log.e(TAG, "TopBar title is null. @onNavigationItemSelected(..)");
+            exception.printStackTrace();
+        }
+
+        switch (id) {
             case R.id.nav_cal:
-                fragment = new CalFragment();
+                if (title != null && !title.equals(getString(R.string.calendar))) {
+                    fragment = new CalFragment();
+                }
                 break;
             case R.id.nav_signing_in:
-                fragment = new SignInFragment();
+                if (title != null && !title.equals(getString(R.string.signing_in))) {
+                    fragment = new SignInFragment();
+                }
                 break;
         }
         FragmentManager fragmentManager = getSupportFragmentManager();
 
-        try {
-            fragmentManager.beginTransaction().replace(R.id.contentContainer, fragment).commit();
-        } catch (NullPointerException e) {
-            Log.e(TAG, "Fragment is null. @onNavigationItemSelected(..)");
+        if (fragment != null) {
+            fragmentManager
+                    .beginTransaction()
+                    .replace(R.id.contentContainer, fragment)
+                    .addToBackStack(null)
+                    .commit();
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
