@@ -25,8 +25,6 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 
 import java.util.HashMap;
 import java.util.List;
@@ -219,21 +217,6 @@ public class SignInFragment extends Fragment {
                             Toast.makeText(getContext(), errorText, Toast.LENGTH_LONG).show();
 
                             Log.e(TAG, error.toString());
-//                            String body = "";
-//                            //get status code here
-//                            String statusCode = String.valueOf(error.networkResponse.statusCode);
-//                            //get response body and parse with appropriate encoding
-//
-//                            if(error.networkResponse.data!=null) {
-//                                try {
-//                                    body = new String(
-//                                            error.networkResponse.data,"UTF-8");
-//                                } catch (UnsupportedEncodingException e) {
-//                                    e.printStackTrace();
-//                                }
-//                            }
-//
-//                            Log.d(TAG, "Body: " + body + " @onErrorResponse(..)");
                         }
                     }) {
 
@@ -254,8 +237,23 @@ public class SignInFragment extends Fragment {
         } else {
             Log.e(TAG, "Response: context is null. @signIn(..)");
         }
-
     }
+
+//                            String body = "";
+//                            //get status code here
+//                            String statusCode = String.valueOf(error.networkResponse.statusCode);
+//                            //get response body and parse with appropriate encoding
+//
+//                            if(error.networkResponse.data!=null) {
+//                                try {
+//                                    body = new String(
+//                                            error.networkResponse.data,"UTF-8");
+//                                } catch (UnsupportedEncodingException e) {
+//                                    e.printStackTrace();
+//                                }
+//                            }
+//
+//                            Log.d(TAG, "Body: " + body + " @onErrorResponse(..)");
 
     /**
      * This interface must be implemented by activities that contain this

@@ -38,7 +38,7 @@ public class SignUpFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         try {
-            View fragmentSignInView = (View) getActivity().findViewById(R.id.fragment_sign_in_id);
+            View fragmentSignInView = (View) getActivity().findViewById(R.id.fragment_sign_up_id);
 
             if (fragmentSignInView != null) {
                 KeyboardUtils.setupKeyboardVisibility(fragmentSignInView, getActivity());
@@ -113,7 +113,7 @@ public class SignUpFragment extends Fragment {
 
                 @Override
                 public void onClick(View view) {
-                    email = emailInput.getText().toString();
+                    email = emailInput.getText().toString().toLowerCase();
                     password = passwordInput.getText().toString();
                     passwordRep = passwordRepInput.getText().toString();
 
@@ -134,7 +134,7 @@ public class SignUpFragment extends Fragment {
 //        daniel.galion94@gmail.com
 
         boolean isEmailCorrect = emailPattern.matcher(email).matches();
-        boolean isPasswordCorrect = password.length() >= 6;
+        boolean isPasswordCorrect = password.trim().length() >= 6 && !password.trim().isEmpty();
         boolean isPasswordRepCorrect = password.equals(passwordRep);
 
         if (isEmailCorrect && isPasswordCorrect && isPasswordRepCorrect) {
