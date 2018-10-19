@@ -82,6 +82,9 @@ public class MainActivity extends AppCompatActivity
             case R.id.nav_cal:
                 fragment = new CalFragment();
                 break;
+            case R.id.nav_list:
+                fragment = new EventsFragment();
+                break;
         }
         FragmentManager fragmentManager = getSupportFragmentManager();
         fragmentManager.beginTransaction().replace(R.id.contentContainer, fragment).commit();

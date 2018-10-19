@@ -128,6 +128,7 @@ public class CalFragment extends Fragment {
                 dialog.show();
             }
         });
+
         return view;
     }
 

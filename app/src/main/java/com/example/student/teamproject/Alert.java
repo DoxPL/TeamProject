@@ -4,6 +4,7 @@ public class Alert {
     private String name;
     private String description;
     private int year, month, day, hour, minute;
+    private boolean isActive;
 
     public String getName() {
         return name;
@@ -63,5 +64,13 @@ public class Alert {
 
     public void setYear(int year) {
         this.year = year;
+    }
+
+    public boolean isActive() {
+        return isActive;
+    }
+
+    public void setActive(boolean active) {
+        isActive = active;
     }
 }
