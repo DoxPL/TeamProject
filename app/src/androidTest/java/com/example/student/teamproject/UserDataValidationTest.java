@@ -54,7 +54,7 @@ public class UserDataValidationTest {
 
         String[] emailArray = {
                 "user@example,com", "user_at_foo.org", "user.name@example.", "      ", "\t\t \t\t ",
-                "foo@bar_baz.com", "foo@bar+baz.com", "foo@bar..com"
+                "foo@bar_baz.com", "foo@bar+baz.com", "foo@bar..com", "daniel@gmail.com"
         };
 
         //        ToastMatcher toastMatcher = new ToastMatcher();

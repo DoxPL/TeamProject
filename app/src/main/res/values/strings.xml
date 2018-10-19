@@ -33,5 +33,8 @@
     <string name="registration">Rejestracja</string>
     <string name="correct_login_data">Poprawne dane logowania</string>
     <string name="incorrect_login_data">Niepoprawne dane logowania</string>
+    <string name="incorrect_email">Niepoprawny e-mail</string>
+    <string name="incorrect_password">Hasło jest za krótkie (powinno mieć co najmniej 6 znaków), lub składa się z samych \"białych\" znaków</string>
+    <string name="incorrect_password_rep">Hasło nie zgadza się z powtórzeniem</string>
 
 </resources>
