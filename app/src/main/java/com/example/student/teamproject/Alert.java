@@ -73,4 +73,5 @@ public class Alert {
     public void setActive(boolean active) {
         isActive = active;
     }
+
 }

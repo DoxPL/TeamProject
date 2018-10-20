@@ -72,8 +72,30 @@ public class EventsFragment extends Fragment {
         test.setHour(14);
         test.setMinute(30);
         test.setActive(true);
+
+        Alert test1 = new Alert();
+        test1.setName("Testowy alarm 2");
+        test1.setDescription("Opis alarmu");
+        test1.setYear(2018);
+        test1.setMonth(10);
+        test1.setDay(12);
+        test1.setHour(10);
+        test1.setMinute(11);
+        test1.setActive(true);
+
+        Alert test2 = new Alert();
+        test2.setName("Testowy alarm");
+        test2.setDescription("Opis alarmu");
+        test2.setYear(2018);
+        test2.setMonth(10);
+        test2.setDay(17);
+        test2.setHour(14);
+        test2.setMinute(30);
+        test2.setActive(true);
         //
+        alertList.add(test1);
         alertList.add(test);
+        alertList.add(test2);
 
         alertAdapter = new AlertAdapter(getContext(), alertList);
         recyclerView.setAdapter(alertAdapter);
