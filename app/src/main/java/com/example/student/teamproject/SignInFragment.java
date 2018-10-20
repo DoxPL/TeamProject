@@ -71,19 +71,19 @@ public class SignInFragment extends Fragment {
             Log.e(TAG, "Cannot get activity. @onViewCreated(..)");
         }
 
-//        SqliteDbUtils db = new SqliteDbUtils(getContext());
-//
-//        db.addItem("date", "title1", "desc", true);
-//        db.addItem("date", "title2", "desc", true);
-//        db.addItem("date", "title3", "desc", true);
-//        db.addItem("date", "title4", "desc", true);
-//
-////        db.deleteItem("date", "title1");
-////        db.deleteItem("date", "title2");
-//        db.deleteItem("date", "title3");
-//        db.deleteItem("date", "title4");
-//
-//        notesList = db.getList();
+        SqliteDbUtils db = new SqliteDbUtils(getContext());
+
+        db.addItem("date", "title1", "desc", true);
+        db.addItem("date", "title2", "desc", true);
+        db.addItem("date", "title3", "desc", true);
+        db.addItem("date", "title4", "desc", true);
+
+//        db.deleteItem("date", "title1");
+//        db.deleteItem("date", "title2");
+        db.deleteItem("date", "title3");
+        db.deleteItem("date", "title4");
+
+        notesList = db.getList();
 
         setButtons();
     }

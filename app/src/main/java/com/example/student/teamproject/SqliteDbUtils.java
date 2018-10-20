@@ -93,8 +93,8 @@ public class SqliteDbUtils extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getWritableDatabase();
         String query =
                 "SELECT * FROM " + TABLE_NAME +
-                " WHERE " + COL1_DATETIME + " = " + date +
-                        " AND " + COL2_TITLE + " = " + title;
+                " WHERE " + COL1_DATETIME + " = \'" + date + "\'" +
+                        " AND " + COL2_TITLE + " = \'" + title + "\'";
         Cursor cursor = db.rawQuery(query, null);
 
         if (cursor.getCount() <= 0) {
