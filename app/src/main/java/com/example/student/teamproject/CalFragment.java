@@ -8,8 +8,13 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.CalendarView;
+import android.widget.CompoundButton;
+import android.widget.EditText;
+import android.widget.Switch;
 import android.widget.TextView;
+import android.widget.TimePicker;
 import android.widget.Toast;
 
 import java.text.SimpleDateFormat;
@@ -73,23 +78,57 @@ public class CalFragment extends Fragment {
     @Override
     public View onCreateView(final LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_cal, container, false);
         calView = (CalendarView) view.findViewById(R.id.calendar);
         setToday();
         calView.setOnDateChangeListener(new CalendarView.OnDateChangeListener() {
             @Override
-            public void onSelectedDayChange(CalendarView view, int year, int month, int dayOfMonth) {
+            public void onSelectedDayChange(CalendarView view, final int year, final int month, final int dayOfMonth) {
                 AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(getContext());
                 View dialogView = inflater.inflate(R.layout.note_dialog, null);
                 dialogBuilder.setView(dialogView);
+                final AlertDialog dialog = dialogBuilder.create();
                 TextView tvDay = (TextView) dialogView.findViewById(R.id.tvDay);
-                String date = dayOfMonth + "." + month + "." + year;
+                final EditText etTitle = (EditText) dialogView.findViewById(R.id.etTitle);
+                final EditText etDesc = (EditText) dialogView.findViewById(R.id.etDescr);
+                Switch swAlert = (Switch) dialogView.findViewById(R.id.swAlert);
+                Button btnSave = (Button) dialogView.findViewById(R.id.btnSave);
+                final TimePicker timePicker = (TimePicker) dialogView.findViewById(R.id.timePicker);
+                timePicker.setIs24HourView(true);
+                timePicker.setVisibility(View.GONE);
+
+                swAlert.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                    @Override
+                    public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                        if(isChecked)
+                            timePicker.setVisibility(View.VISIBLE);
+                        else
+                            timePicker.setVisibility(View.GONE);
+                    }
+                });
+
+                btnSave.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Alert currentAlert = new Alert();
+                        currentAlert.setName(etTitle.getText().toString());
+                        currentAlert.setDescription(etDesc.getText().toString());
+                        currentAlert.setYear(year);
+                        currentAlert.setMonth(month);
+                        currentAlert.setDay(dayOfMonth);
+                        currentAlert.setHour(timePicker.getHour());
+                        currentAlert.setMinute(timePicker.getMinute());
+                        //SQL
+                        dialog.dismiss();
+                    }
+                });
+
+                String date = dayOfMonth + "." + (month + 1) + "." + year;
                 tvDay.setText(tvDay.getText() + date);
-                AlertDialog dialog = dialogBuilder.create();
                 dialog.show();
             }
         });
+
         return view;
     }
 
