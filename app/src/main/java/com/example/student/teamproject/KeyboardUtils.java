@@ -12,7 +12,7 @@ public final class KeyboardUtils {
     private static final String TAG = "KeyboardUtils";
 
     public static void setupKeyboardVisibility(View view, final Activity activity) {
-        if (!(view instanceof EditText) && view.getId() != R.id.sign_in_eye_button_id) {
+        if (!(view instanceof EditText) && view.getId() != R.id.eye_button_id) {
             view.setOnTouchListener(new View.OnTouchListener() {
                 @Override
                 public boolean onTouch(View view, MotionEvent motionEvent) {

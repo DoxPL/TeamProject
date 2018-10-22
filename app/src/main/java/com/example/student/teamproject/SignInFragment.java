@@ -110,7 +110,7 @@ public class SignInFragment extends Fragment {
         try {
             Button getListBut =
                     (Button) getActivity().findViewById(R.id.sign_in_get_list_button_id);
-            Button eyeButton = (Button) getActivity().findViewById(R.id.sign_in_eye_button_id);
+            Button eyeButton = (Button) getActivity().findViewById(R.id.eye_button_id);
             final EditText emailInput =
                     (EditText) getActivity().findViewById(R.id.sign_in_email_input_id);
             final EditText passwordInput =

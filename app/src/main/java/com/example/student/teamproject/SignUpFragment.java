@@ -15,7 +15,6 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import java.util.regex.Pattern;
 
@@ -88,7 +87,7 @@ public class SignUpFragment extends Fragment {
     private void setButtons() {
         try {
             Button signUpBut = (Button) getActivity().findViewById(R.id.sign_up_button);
-            Button eyeButton = (Button) getActivity().findViewById(R.id.sign_up_eye_button);
+            Button eyeButton = (Button) getActivity().findViewById(R.id.eye_button_id);
             final EditText emailInput =
                     (EditText) getActivity().findViewById(R.id.sign_up_email_input);
             final EditText passwordInput =
@@ -151,15 +150,18 @@ public class SignUpFragment extends Fragment {
 //        daniel.galion94@gmail.com
 
         boolean isEmailCorrect = emailPattern.matcher(email).matches();
-        boolean isPasswordCorrect = password.length() >= 6 && !password.trim().isEmpty();
+        boolean isPasswordCorrect = (password.length() >= 6 && !password.trim().isEmpty());
         boolean isPasswordRepCorrect = password.equals(passwordRep);
 
-        errors.clear();
+//        errors.clear();
+        for (String key : errors.keySet()) {
+            errors.putString(key, null);
+        }
 
         if (!isEmailCorrect) errors.putString(EMAIL_ERR, getString(R.string.incorrect_email));
         if (!isPasswordCorrect)
             errors.putString(PASSWORD_ERR, getString(R.string.incorrect_password));
-        if (!isPasswordCorrect)
+        if (!isPasswordRepCorrect)
             errors.putString(PASSWORD_REP_ERR, getString(R.string.incorrect_password_rep));
 
         onErrorViewChange();
@@ -176,21 +178,28 @@ public class SignUpFragment extends Fragment {
             TextView passwordRepErrView =
                     (TextView) getActivity().findViewById(R.id.sign_up_password_rep_error_id);
 
+//            Log.d(TAG, "Email error str: : " + errors.get(EMAIL_ERR) + ". @onErrorViewChange()");
+//            Log.d(TAG, "Email password str: : " + errors.get(PASSWORD_ERR) + ". @onErrorViewChange()");
+//            Log.d(TAG, "Email password repetition str: : " + errors.get(PASSWORD_REP_ERR) + ". @onErrorViewChange()");
 
             if (errors.get(EMAIL_ERR) != null) {
                 emailErrView.setVisibility(View.VISIBLE);
                 emailErrView.setText((String) errors.get(EMAIL_ERR));
             }
+//                Log.d(TAG, "Email error. @onErrorViewChange()");
 
             if (errors.get(PASSWORD_ERR) != null) {
                 passwordErrView.setVisibility(View.VISIBLE);
                 passwordErrView.setText((String) errors.get(PASSWORD_ERR));
             }
+//                Log.d(TAG, "Password error. @onErrorViewChange()");
 
             if (errors.get(PASSWORD_REP_ERR) != null) {
                 passwordRepErrView.setVisibility(View.VISIBLE);
                 passwordRepErrView.setText((String) errors.get(PASSWORD_REP_ERR));
             }
+//                Log.d(TAG, "Password repetition error. @onErrorViewChange()");
+
         } catch (NullPointerException exception) {
             Log.e(TAG, "Some View or errors Bundle causes NPE @onErrorViewChange()");
             exception.printStackTrace();
