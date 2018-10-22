@@ -36,6 +36,6 @@
     <string name="incorrect_email">Niepoprawny e-mail</string>
     <string name="incorrect_password">Hasło jest za krótkie (powinno mieć co najmniej 6 znaków), lub składa się z samych \"białych\" znaków</string>
     <string name="incorrect_password_rep">Hasło nie zgadza się z powtórzeniem</string>
-    <string name="already_exist">Wpis o takim tytule już istnieje</string>
+    <string name="already_exist">Wpis na ten dzień o podanym tytule już istnieje. Wpisz inny</string>
 
 </resources>

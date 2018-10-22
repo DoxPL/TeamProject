@@ -80,7 +80,7 @@ public class SignInFragment extends Fragment {
 
 //        db.deleteItem("date", "title1");
 //        db.deleteItem("date", "title2");
-        db.deleteItem("date", "title3");
+//        db.deleteItem("date", "title3");
         db.deleteItem("date", "title4");
 
         notesList = db.getList();
