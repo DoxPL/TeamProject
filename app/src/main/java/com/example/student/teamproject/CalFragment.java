@@ -1,5 +1,6 @@
 package com.example.student.teamproject;
 
+import android.app.AlertDialog;
 import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
@@ -8,7 +9,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CalendarView;
+import android.widget.TextView;
 import android.widget.Toast;
+
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 
 
 /**
@@ -28,6 +34,8 @@ public class CalFragment extends Fragment {
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
+
+    CalendarView calView;
 
     private OnFragmentInteractionListener mListener;
 
@@ -63,13 +71,37 @@ public class CalFragment extends Fragment {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(final LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_cal, container, false);
-        CalendarView calendarView = (CalendarView) getActivity().findViewById(R.id.calendarView);
-
+        calView = (CalendarView) view.findViewById(R.id.calendar);
+        setToday();
+        calView.setOnDateChangeListener(new CalendarView.OnDateChangeListener() {
+            @Override
+            public void onSelectedDayChange(CalendarView view, int year, int month, int dayOfMonth) {
+                AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(getContext());
+                View dialogView = inflater.inflate(R.layout.note_dialog, null);
+                dialogBuilder.setView(dialogView);
+                TextView tvDay = (TextView) dialogView.findViewById(R.id.tvDay);
+                String date = dayOfMonth + "." + month + "." + year;
+                tvDay.setText(tvDay.getText() + date);
+                AlertDialog dialog = dialogBuilder.create();
+                dialog.show();
+            }
+        });
         return view;
+    }
+
+    private void setToday()
+    {
+        Calendar calendar = Calendar.getInstance();
+        int year = calendar.get(Calendar.YEAR);
+        int month = calendar.get(Calendar.MONTH);
+        int day = calendar.get(Calendar.DAY_OF_MONTH);
+        calendar.set(year, month, day);
+        long millis = calendar.getTimeInMillis();
+        calView.setDate(millis, true, true);
     }
 
     // TODO: Rename method, update argument and hook method into UI event
