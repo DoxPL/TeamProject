@@ -15,9 +15,9 @@ import java.util.List;
 public class AlertAdapter extends RecyclerView.Adapter<AlertAdapter.AlertHolder> {
 
     private Context context;
-    private List<Alert> list;
+    private List<NotesModel> list;
 
-    public AlertAdapter(Context context, List<Alert> list) {
+    public AlertAdapter(Context context, List<NotesModel> list) {
         this.context = context;
         this.list = list;
     }
@@ -33,11 +33,11 @@ public class AlertAdapter extends RecyclerView.Adapter<AlertAdapter.AlertHolder>
 
     @Override
     public void onBindViewHolder(@NonNull AlertHolder alertHolder, int i) {
-        Alert alert = list.get(i);
-        alertHolder.tvTitle.setText(alert.getName());
+        NotesModel alert = list.get(i);
+        alertHolder.tvTitle.setText(alert.getTitle());
         alertHolder.tvDescription.setText(alert.getDescription());
-        String strDate = alert.getYear() + "." + alert.getMonth() + "." + alert.getDay() + " " + alert.getHour() + ":" + alert.getMinute();
-        alertHolder.tvTime.setText(strDate);
+        //String strDate = alert.getYear() + "." + alert.getMonth() + "." + alert.getDay() + " " + alert.getHour() + ":" + alert.getMinute();
+        alertHolder.tvTime.setText(alert.getDate());
     }
 
     @Override
@@ -47,7 +47,6 @@ public class AlertAdapter extends RecyclerView.Adapter<AlertAdapter.AlertHolder>
 
     class AlertHolder extends RecyclerView.ViewHolder
     {
-
         ImageView icon;
         TextView tvTitle;
         TextView tvDescription;

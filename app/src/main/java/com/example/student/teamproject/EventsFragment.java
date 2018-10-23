@@ -3,9 +3,13 @@ package com.example.student.teamproject;
 import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,6 +23,7 @@ public class EventsFragment extends Fragment {
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
+    private static final String TAG = "EventsFragment";
 
     // TODO: Rename and change types of parameters
     private String mParam1;
@@ -28,7 +33,7 @@ public class EventsFragment extends Fragment {
 
     RecyclerView recyclerView;
     AlertAdapter alertAdapter;
-    List<Alert> alertList;
+    List<NotesModel> alertList;
 
     public EventsFragment() {
         // Required empty public constructor
@@ -57,13 +62,14 @@ public class EventsFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_events, container, false);
+        Context context = getContext();
         recyclerView = (RecyclerView) view.findViewById(R.id.recyclerView);
         recyclerView.setHasFixedSize(true);
-        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        recyclerView.setLayoutManager(new LinearLayoutManager(context));
+        SqliteDbUtils dbUtils = new SqliteDbUtils(context);
+        alertList = dbUtils.getList();
 
-        alertList = new ArrayList<Alert>();
-        //
-        Alert test = new Alert();
+        /* Alert test = new Alert();
         test.setName("Testowy alarm");
         test.setDescription("Opis alarmu");
         test.setYear(2018);
@@ -72,34 +78,22 @@ public class EventsFragment extends Fragment {
         test.setHour(14);
         test.setMinute(30);
         test.setActive(true);
-
-        Alert test1 = new Alert();
-        test1.setName("Testowy alarm 2");
-        test1.setDescription("Opis alarmu");
-        test1.setYear(2018);
-        test1.setMonth(10);
-        test1.setDay(12);
-        test1.setHour(10);
-        test1.setMinute(11);
-        test1.setActive(true);
-
-        Alert test2 = new Alert();
-        test2.setName("Testowy alarm");
-        test2.setDescription("Opis alarmu");
-        test2.setYear(2018);
-        test2.setMonth(10);
-        test2.setDay(17);
-        test2.setHour(14);
-        test2.setMinute(30);
-        test2.setActive(true);
-        //
-        alertList.add(test1);
-        alertList.add(test);
-        alertList.add(test2);
+        alertList.add(test);*/
 
         alertAdapter = new AlertAdapter(getContext(), alertList);
         recyclerView.setAdapter(alertAdapter);
         return view;
+    }
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        try {
+            TopBarUtils.setTopBar(
+                    (AppCompatActivity) getActivity(), view, getString(R.string.alert_list));
+
+        } catch (NullPointerException e) {
+            Log.e(TAG, "Cannot get activity. @onViewCreated(..)");
+        }
     }
 
     public void onButtonPressed(Uri uri) {
@@ -107,6 +101,7 @@ public class EventsFragment extends Fragment {
             mListener.onFragmentInteraction(uri);
         }
     }
+
 
     @Override
     public void onAttach(Context context) {

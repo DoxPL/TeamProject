@@ -22,6 +22,7 @@
     <!-- NavigationView strings -->
     <string name="calendar">Kalendarz</string>
     <string name="signing_in">Logowanie</string>
+    <string name="alert_list">Lista zdarzeń</string>
     
     <!-- UI strings -->
     <string name="email">Adres e-mail</string>
@@ -37,5 +38,6 @@
     <string name="incorrect_password">Hasło jest za krótkie (powinno mieć co najmniej 6 znaków), lub składa się z samych \"białych\" znaków</string>
     <string name="incorrect_password_rep">Hasło nie zgadza się z powtórzeniem</string>
     <string name="already_exist">Wpis na ten dzień o podanym tytule już istnieje. Wpisz inny</string>
+    <string name="incorrect_title">Tytuł musi zawierać przynajmniej 3 znaki</string>
 
 </resources>
