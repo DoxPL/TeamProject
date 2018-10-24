@@ -39,5 +39,9 @@
     <string name="incorrect_password_rep">Hasło nie zgadza się z powtórzeniem</string>
     <string name="already_exist">Wpis na ten dzień o podanym tytule już istnieje. Wpisz inny</string>
     <string name="incorrect_title">Tytuł musi zawierać przynajmniej 3 znaki</string>
+    <string name="delete_event_dialog">Czy chcesz usunąć wybrane zdarzenie?</string>
+    <string name="btn_yes">Tak</string>
+    <string name="btn_no">Nie</string>
+    <string name="event_deleted">Zdarzenie zostało usunięte</string>
 
 </resources>
