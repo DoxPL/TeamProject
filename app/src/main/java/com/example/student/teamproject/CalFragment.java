@@ -6,6 +6,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.annotation.StringRes;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
@@ -47,6 +48,7 @@ public class CalFragment extends Fragment {
     private String mParam2;
 
     CalendarView calView;
+    boolean alertActive;
 
     private OnFragmentInteractionListener mListener;
 
@@ -82,18 +84,21 @@ public class CalFragment extends Fragment {
     }
 
     @Override
-    public View onCreateView(final LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(final LayoutInflater inflater, final ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_cal, container, false);
+        final Context context = getContext();
         calView = (CalendarView) view.findViewById(R.id.calendar);
         setToday();
+        final SqliteDbUtils dbUtils = new SqliteDbUtils(context);
         calView.setOnDateChangeListener(new CalendarView.OnDateChangeListener() {
             @Override
             public void onSelectedDayChange(CalendarView view, final int year, final int month, final int dayOfMonth) {
-                AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(getContext());
+                AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(context);
                 View dialogView = inflater.inflate(R.layout.note_dialog, null);
                 dialogBuilder.setView(dialogView);
                 final AlertDialog dialog = dialogBuilder.create();
+                alertActive = false;
                 TextView tvDay = (TextView) dialogView.findViewById(R.id.tvDay);
                 final EditText etTitle = (EditText) dialogView.findViewById(R.id.etTitle);
                 final EditText etDesc = (EditText) dialogView.findViewById(R.id.etDescr);
@@ -106,10 +111,14 @@ public class CalFragment extends Fragment {
                 swAlert.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                     @Override
                     public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                        if(isChecked)
+                        if(isChecked) {
+                            alertActive = true;
                             timePicker.setVisibility(View.VISIBLE);
-                        else
+                        }
+                        else {
+                            alertActive = false;
                             timePicker.setVisibility(View.GONE);
+                        }
                     }
                 });
 
@@ -124,8 +133,14 @@ public class CalFragment extends Fragment {
                         currentAlert.setDay(dayOfMonth);
                         currentAlert.setHour(timePicker.getHour());
                         currentAlert.setMinute(timePicker.getMinute());
-                        //SQL
-                        dialog.dismiss();
+
+                        if(formValidation(etTitle.getText().toString()))
+                        {
+                            dbUtils.addItem(currentAlert.getFullDate(), currentAlert.getName(), currentAlert.getDescription(), alertActive);
+                            dialog.dismiss();
+                        }
+                        else
+                            Toast.makeText(context, getResources().getString(R.string.incorrect_title), Toast.LENGTH_LONG).show();
                     }
                 });
 
@@ -149,6 +164,12 @@ public class CalFragment extends Fragment {
         calView.setDate(millis, true, true);
     }
 
+    private boolean formValidation(String title)
+    {
+        if(title.matches(".{3,}"))
+            return true;
+        return false;
+    }
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         try {
@@ -159,6 +180,7 @@ public class CalFragment extends Fragment {
             Log.e(TAG, "Cannot get activity. @onViewCreated(..)");
         }
     }
+
 
     // TODO: Rename method, update argument and hook method into UI event
     public void onButtonPressed(Uri uri) {

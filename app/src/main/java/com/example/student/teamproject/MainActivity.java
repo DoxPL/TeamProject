@@ -123,7 +123,9 @@ public class MainActivity extends AppCompatActivity
                 }
                 break;
             case R.id.nav_list:
-                fragment = new EventsFragment();
+                if (title != null && !title.equals(getString(R.string.alert_list))) {
+                    fragment = new EventsFragment();
+                }
                 break;
         }
         FragmentManager fragmentManager = getSupportFragmentManager();
