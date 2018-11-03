@@ -1,5 +1,6 @@
 package com.example.student.teamproject;
 
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
@@ -13,6 +14,10 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+
+import com.google.gson.Gson;
+
+import java.util.List;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -46,6 +51,36 @@ public class MainActivity extends AppCompatActivity
                 .replace(R.id.contentContainer, fragment)
                 .addToBackStack(null)
                 .commit();
+
+        createJson();
+    }
+
+    private final class UserNotes {
+        // List<NotesModel>
+        // userEmail from prefs
+
+        private String userEmail;
+        private List<NotesModel> userNotesList;
+
+        public UserNotes(String userEmail, List<NotesModel> userNotesList) {
+            this.userEmail = userEmail;
+            this.userNotesList = userNotesList;
+        }
+    }
+
+    private void createJson() {
+        SqliteDbUtils dbUtils = new SqliteDbUtils(this);
+        List<NotesModel> notesList;
+        String email, json;
+        Gson gson = new Gson();
+
+        notesList = dbUtils.getList();
+        email = LoginSharedPrefsUtils.getUserEmail(this);
+
+        UserNotes userNotes = new UserNotes(email, notesList);
+        json = gson.toJson(userNotes);
+
+        Log.d(TAG, "UserNotes JSON: " + json);
     }
 
     //        WebView webView = (WebView) findViewById(R.id.web_view);
