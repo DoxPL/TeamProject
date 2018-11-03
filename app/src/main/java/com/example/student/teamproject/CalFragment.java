@@ -127,7 +127,8 @@ public class CalFragment extends Fragment {
                     public void onClick(View v) {
                         Alert currentAlert = new Alert();
                         currentAlert.setName(etTitle.getText().toString());
-                        currentAlert.setDescription(etDesc.getText().toString());
+                        currentAlert.setDescription(!etDesc.getText().toString().equals("")
+                                ? etDesc.getText().toString() : getActivity().getResources().getString(R.string.noDescr));
                         currentAlert.setYear(year);
                         currentAlert.setMonth(month);
                         currentAlert.setDay(dayOfMonth);

@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">TeamProject</string>
+    <string name="app_name">Organizer Team C</string>
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
     <string name="nav_header_title">Android Studio</string>
@@ -43,5 +43,7 @@
     <string name="btn_yes">Tak</string>
     <string name="btn_no">Nie</string>
     <string name="event_deleted">Zdarzenie zostało usunięte</string>
+    <string name="dateTime">Godzina i data</string>
+    <string name="noDescr">Brak opisu</string>
 
 </resources>
