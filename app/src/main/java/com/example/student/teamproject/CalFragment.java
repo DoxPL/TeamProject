@@ -130,7 +130,7 @@ public class CalFragment extends Fragment {
                         currentAlert.setDescription(!etDesc.getText().toString().equals("")
                                 ? etDesc.getText().toString() : getActivity().getResources().getString(R.string.noDescr));
                         currentAlert.setYear(year);
-                        currentAlert.setMonth(month);
+                        currentAlert.setMonth(month + 1);
                         currentAlert.setDay(dayOfMonth);
                         currentAlert.setHour(timePicker.getHour());
                         currentAlert.setMinute(timePicker.getMinute());
@@ -138,6 +138,7 @@ public class CalFragment extends Fragment {
                         if(formValidation(etTitle.getText().toString()))
                         {
                             dbUtils.addItem(currentAlert.getFullDate(), currentAlert.getName(), currentAlert.getDescription(), alertActive);
+                            Notification.handle(getContext(), currentAlert);
                             dialog.dismiss();
                         }
                         else
