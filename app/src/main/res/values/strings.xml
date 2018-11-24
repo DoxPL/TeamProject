@@ -1,0 +1,41 @@
+<resources>
+    <string name="app_name">TeamProject</string>
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="nav_header_title">Android Studio</string>
+    <string name="nav_header_subtitle">android.studio@android.com</string>
+    <string name="nav_header_desc">Navigation header</string>
+    <string name="action_settings">Settings</string>
+    
+    <!-- Custom APIs -->
+    <!--<string name="calendar_api_link1">https://danielapi.chost.pl/calendar-api.php</string>-->
+    <!--<string name="calendar_api_link1">https://api.letsbuildthatapp.com/youtube/home_feed</string>-->
+    <!--<string name="calendar_api_link1">http://pcb.chost.pl/app/login.php</string>-->
+    <string name="calendar_api_link1">http://xor.math.uni.lodz.pl/~daniel_g/calendar-api.php</string>
+    
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment1">Hello blank fragment</string>
+    
+    <!-- Accessibility strings -->
+    <string name="password_visibility1">Widocznosc hasła</string>
+    
+    <!-- NavigationView strings -->
+    <string name="calendar">Kalendarz</string>
+    <string name="signing_in">Logowanie</string>
+    
+    <!-- UI strings -->
+    <string name="email">Adres e-mail</string>
+    <string name="password">Hasło</string>
+    <string name="sign_in_upper_case">ZALOGUJ SIĘ</string>
+    <string name="dont_u_have_an_acc_up_case">NIE MASZ KONTA?</string>
+    <string name="sign_up_up_case">ZAREJESTRUJ SIĘ</string>
+    <string name="repeat_password">Powtórz hasło</string>
+    <string name="registration">Rejestracja</string>
+    <string name="correct_login_data">Poprawne dane logowania</string>
+    <string name="incorrect_login_data">Niepoprawne dane logowania</string>
+    <string name="incorrect_email">Niepoprawny e-mail</string>
+    <string name="incorrect_password">Hasło jest za krótkie (powinno mieć co najmniej 6 znaków), lub składa się z samych \"białych\" znaków</string>
+    <string name="incorrect_password_rep">Hasło nie zgadza się z powtórzeniem</string>
+    <string name="already_exist">Wpis na ten dzień o podanym tytule już istnieje. Wpisz inny</string>
+
+</resources>
