@@ -19,8 +19,8 @@
                                   <option name="values">
                                     <map>
                                       <entry key="assetType" value="IMAGE" />
-                                      <entry key="imageAsset" value="G:\AS\Tło\3.png" />
-                                      <entry key="outputName" value="ic_background" />
+                                      <entry key="imageAsset" value="D:\AS\Tło\background_transparent.png" />
+                                      <entry key="outputName" value="background_transparent" />
                                       <entry key="themeColor" value="e50005" />
                                     </map>
                                   </option>
@@ -37,7 +37,7 @@
                                           <PersistentState>
                                             <option name="values">
                                               <map>
-                                                <entry key="scalingPercent" value="51" />
+                                                <entry key="scalingPercent" value="85" />
                                               </map>
                                             </option>
                                           </PersistentState>
@@ -47,8 +47,9 @@
                                   </option>
                                   <option name="values">
                                     <map>
+                                      <entry key="backgroundImage" value="D:\AS\Tło\background_transparent.png" />
                                       <entry key="backgroundLayerName" value="ic_launcher_background" />
-                                      <entry key="foregroundImage" value="G:\AS\Ikona\ic_launcher_foreground.png" />
+                                      <entry key="foregroundImage" value="D:\AS\Ikona\iconV2.png" />
                                       <entry key="foregroundLayerName" value="ic_launcher_foreground" />
                                       <entry key="outputName" value="ic_icon" />
                                     </map>
@@ -56,11 +57,6 @@
                                 </PersistentState>
                               </value>
                             </entry>
-                          </map>
-                        </option>
-                        <option name="values">
-                          <map>
-                            <entry key="outputIconType" value="ACTIONBAR" />
                           </map>
                         </option>
                       </PersistentState>

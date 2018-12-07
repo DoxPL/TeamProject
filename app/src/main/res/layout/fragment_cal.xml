@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/background"
+    android:background="@drawable/wall_cal"
     tools:context=".CalFragment">
 
     <!-- TODO: Update blank fragment layout -->
@@ -11,5 +11,6 @@
     <CalendarView
         android:id="@+id/calendar"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:selectedWeekBackgroundColor="#FFA90202" />
 </FrameLayout>
