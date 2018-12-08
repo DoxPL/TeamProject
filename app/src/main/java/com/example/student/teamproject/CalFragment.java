@@ -130,7 +130,7 @@ public class CalFragment extends Fragment {
                         currentAlert.setDescription(!etDesc.getText().toString().equals("")
                                 ? etDesc.getText().toString() : getActivity().getResources().getString(R.string.noDescr));
                         currentAlert.setYear(year);
-                        currentAlert.setMonth(month + 1);
+                        currentAlert.setMonth(month);
                         currentAlert.setDay(dayOfMonth);
                         currentAlert.setHour(timePicker.getHour());
                         currentAlert.setMinute(timePicker.getMinute());
@@ -141,8 +141,9 @@ public class CalFragment extends Fragment {
                             Notification.handle(getContext(), currentAlert);
                             dialog.dismiss();
                         }
-                        else
+                        else {
                             Toast.makeText(context, getResources().getString(R.string.incorrect_title), Toast.LENGTH_LONG).show();
+                        }
                     }
                 });
 

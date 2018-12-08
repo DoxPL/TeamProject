@@ -1,5 +1,6 @@
 package com.example.student.teamproject;
 
+import android.annotation.SuppressLint;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -17,6 +18,5 @@ public class AlertReceiver extends BroadcastReceiver {
         Notification.create(context, "Alarm", "Powiadomienie");
         wakeLock.release();
     }
-
 
 }
