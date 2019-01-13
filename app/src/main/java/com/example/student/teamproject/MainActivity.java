@@ -52,48 +52,36 @@ public class MainActivity extends AppCompatActivity
                 .addToBackStack(null)
                 .commit();
 
-        createJson();
+//        createJson();
     }
 
-    private final class UserNotes {
-        // List<NotesModel>
-        // userEmail from prefs
-
-        private String userEmail;
-        private List<NotesModel> userNotesList;
-
-        public UserNotes(String userEmail, List<NotesModel> userNotesList) {
-            this.userEmail = userEmail;
-            this.userNotesList = userNotesList;
-        }
-    }
-
-    private void createJson() {
-        SqliteDbUtils dbUtils = new SqliteDbUtils(this);
-        List<NotesModel> notesList;
-        String email, json;
-        Gson gson = new Gson();
-
-        notesList = dbUtils.getList();
-        email = LoginSharedPrefsUtils.getUserEmail(this);
-
-        UserNotes userNotes = new UserNotes(email, notesList);
-        json = gson.toJson(userNotes);
-
-        Log.d(TAG, "UserNotes JSON: " + json);
-    }
-
-    //        WebView webView = (WebView) findViewById(R.id.web_view);
-//        webView.loadUrl("https://api.letsbuildthatapp.com/youtube/home_feed");
-
-//        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-//        fab.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-//                        .setAction("Action", null).show();
-//            }
-//        });
+//    private final class UserNotes {
+//        // List<NotesModel>
+//        // userEmail from prefs
+//
+//        private String userEmail;
+//        private List<NotesModel> userNotesList;
+//
+//        public UserNotes(String userEmail, List<NotesModel> userNotesList) {
+//            this.userEmail = userEmail;
+//            this.userNotesList = userNotesList;
+//        }
+//    }
+//
+//    private void createJson() {
+//        SqliteDbUtils dbUtils = new SqliteDbUtils(this);
+//        List<NotesModel> notesList;
+//        String email, json;
+//        Gson gson = new Gson();
+//
+//        notesList = dbUtils.getList();
+//        email = LoginSharedPrefsUtils.getUserEmail(this);
+//
+//        UserNotes userNotes = new UserNotes(email, notesList);
+//        json = gson.toJson(userNotes);
+//
+//        Log.d(TAG, "UserNotes JSON: " + json);
+//    }
 
     @Override
     public void onBackPressed() {
