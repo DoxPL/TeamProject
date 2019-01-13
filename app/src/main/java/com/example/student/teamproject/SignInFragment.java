@@ -124,8 +124,8 @@ public class SignInFragment extends Fragment {
             getListBut.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    Log.d("list", fList.toString());
-                    Log.d("list.size", "" + fList.size());
+//                    Log.d("list", fList.toString());
+//                    Log.d("list.size", "" + fList.size());
                 }
             });
 
