@@ -74,10 +74,6 @@ public class Alert {
         isActive = active;
     }
 
-    public String getFullDate()
-    {
-        return this.year + "-" + this.month + "-" + this.day + " " + this.hour + ":" + this.minute;
-    }
 
     public int getRequestCode()
     {

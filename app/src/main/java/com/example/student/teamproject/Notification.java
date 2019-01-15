@@ -19,14 +19,14 @@ public class Notification {
 
     public static void create(Context context, String title, String description)
     {
-        NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(context)
+        NotificationCompat.Builder ncBuilder = new NotificationCompat.Builder(context)
+                .setDefaults(NotificationCompat.DEFAULT_ALL)
                 .setContentTitle(title)
                 .setContentText(description)
-                .setPriority(NotificationCompat.PRIORITY_DEFAULT)
-                .setAutoCancel(true);
-        notificationBuilder.build();
-        NotificationManagerCompat nmc = NotificationManagerCompat.from(context);
-        //nmc.notify(1, notificationBuilder.build());
+                .setSmallIcon(R.drawable.ic_menu_send);
+        NotificationManager nManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
+        nManager.notify(1, ncBuilder.build());
+        //showDialog(text);
 
     }
 
@@ -46,4 +46,5 @@ public class Notification {
         Toast.makeText(context, "Ustawiono powiadomienie na: " + date.getTime().toString(), Toast.LENGTH_LONG).show();
         alarmManager.set(AlarmManager.RTC_WAKEUP, date.getTimeInMillis(), pendingIntent);
     }
+
 }
