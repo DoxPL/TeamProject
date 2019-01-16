@@ -6,33 +6,26 @@ import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Locale;
 import java.util.TimeZone;
 
 public class DateUtilities {
 
-    public static String formatDate(String fullDate, Context context) {
+    public static Date dateFormat(String date) {
 
-        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        DateFormat dateFormat = new SimpleDateFormat("yyyy-M-dd HH:mm:ss", Locale.ENGLISH);
         Date tmpDate = null;
         try {
-            tmpDate = dateFormat.parse(fullDate);
+            tmpDate = dateFormat.parse(date);
         } catch (ParseException e) {
             e.printStackTrace();
         }
-
-        long when = tmpDate.getTime();
-        int flags = 0;
-        flags |= android.text.format.DateUtils.FORMAT_SHOW_TIME;
-        flags |= android.text.format.DateUtils.FORMAT_SHOW_DATE;
-        flags |= android.text.format.DateUtils.FORMAT_ABBREV_MONTH;
-        flags |= android.text.format.DateUtils.FORMAT_SHOW_YEAR;
-
-        return  android.text.format.DateUtils.formatDateTime(context,
-                when + TimeZone.getDefault().getOffset(when), flags);
+        return tmpDate;
     }
 
     public static String getFullDate(Alert alert)
     {
         return alert.getYear()+ "-" + alert.getMonth() + "-" + alert.getDay() + " " + alert.getHour() + ":" + alert.getMinute();
     }
+
 }

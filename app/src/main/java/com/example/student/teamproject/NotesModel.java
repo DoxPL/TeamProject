@@ -76,6 +76,11 @@ public class NotesModel {
     public void setEnabled(boolean enabled) {
         this.isEnabled = enabled;
     }
+
+    public int getRequestCode()
+    {
+        return 0;
+    }
 }
 
 //    NotesModel(int year, int month, int day, int hour, int minute, String title, String description)

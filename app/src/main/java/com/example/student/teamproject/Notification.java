@@ -47,4 +47,11 @@ public class Notification {
         alarmManager.set(AlarmManager.RTC_WAKEUP, date.getTimeInMillis(), pendingIntent);
     }
 
+    public static void cancel(Context context, int requestCode)
+    {
+        Intent intent = new Intent(context, AlertReceiver.class);
+        PendingIntent.getBroadcast(context, requestCode, intent,
+                PendingIntent.FLAG_UPDATE_CURRENT).cancel();
+    }
+
 }

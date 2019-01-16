@@ -1,5 +1,7 @@
 package com.example.student.teamproject;
 
+import java.util.Date;
+
 public class Alert {
     private String name;
     private String description;
@@ -81,6 +83,15 @@ public class Alert {
                 String.valueOf(this.day) +
                 String.valueOf(this.hour) +
                 String.valueOf(this.minute);
+        return Integer.parseInt(reqCode);
+    }
+
+    public static int getRequestCode(Date date)
+    {
+        String reqCode = String.valueOf(date.getMonth()) +
+                String.valueOf(date.getDay()) +
+                String.valueOf(date.getHours()) +
+                String.valueOf(date.getMinutes());
         return Integer.parseInt(reqCode);
     }
 

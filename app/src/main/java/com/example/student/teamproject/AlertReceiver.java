@@ -20,5 +20,4 @@ public class AlertReceiver extends BroadcastReceiver {
         context.startActivity(alertDialogIntent);
         wakeLock.release();
     }
-
 }
