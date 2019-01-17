@@ -12,5 +12,5 @@
         android:id="@+id/calendar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:selectedWeekBackgroundColor="#FFA90202" />
+        android:selectedWeekBackgroundColor="@color/colorAccent" />
 </FrameLayout>

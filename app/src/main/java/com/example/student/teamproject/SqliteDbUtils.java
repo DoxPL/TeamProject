@@ -45,7 +45,6 @@ public class SqliteDbUtils extends SQLiteOpenHelper {
                         COL2_TITLE + " TEXT, " +
                         COL3_DESCRIPTION + " TEXT, " +
                         COL4_ENABLED + " BOOLEAN)";
-
         sqLiteDatabase.execSQL(createTable);
     }
 
