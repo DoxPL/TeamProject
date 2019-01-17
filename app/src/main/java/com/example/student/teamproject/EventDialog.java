@@ -8,6 +8,7 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Vibrator;
 import android.view.WindowManager;
+import android.widget.Toast;
 
 public class EventDialog extends Activity {
     @Override
@@ -18,9 +19,17 @@ public class EventDialog extends Activity {
         long []vibPattern = {500, 500, 400};
         final Vibrator vib = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
         final AlertDialog alertDialog = new AlertDialog.Builder(this).create();
-        alertDialog.setTitle("Alarm");
-        alertDialog.setMessage("Test");
-        alertDialog.setButton(DialogInterface.BUTTON_NEUTRAL, "Wyłącz alarm", new DialogInterface.OnClickListener() {
+        try {
+            alertDialog.setTitle(getString(R.string.dialogTitle));
+            String message = getIntent().getStringExtra("NAME") + ((getIntent().hasExtra("DESCRIPTION")) ?
+                    getIntent().getStringExtra("DESCRIPTION") : "");
+            alertDialog.setMessage(message);
+        }
+        catch (Exception e)
+        {
+            Toast.makeText(getApplicationContext(), e.getMessage(), Toast.LENGTH_LONG).show();
+        }
+        alertDialog.setButton(DialogInterface.BUTTON_NEUTRAL, getString(R.string.turn_off_alert), new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 alertDialog.dismiss();

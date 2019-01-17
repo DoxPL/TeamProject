@@ -34,6 +34,8 @@ public class Notification {
     {
         AlarmManager alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
         Intent intent = new Intent(context, AlertReceiver.class);
+        int requestCode = alert.getRequestCode();
+        intent.putExtra("EVENT_NAME", alert.getName());
         PendingIntent pendingIntent = PendingIntent.getBroadcast(context, alert.getRequestCode(), intent, PendingIntent.FLAG_UPDATE_CURRENT);
         Calendar date = Calendar.getInstance(TimeZone.getDefault(), Locale.getDefault());
         date.set(Calendar.DAY_OF_MONTH, alert.getDay());

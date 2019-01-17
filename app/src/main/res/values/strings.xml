@@ -45,5 +45,7 @@
     <string name="event_deleted">Zdarzenie zostało usunięte</string>
     <string name="dateTime">Godzina i data</string>
     <string name="noDescr">Brak opisu</string>
-
+    <string name="notification">Powiadomienie z organizera</string>
+    <string name="dialogTitle">Alarm</string>
+    <string name="turn_off_alert">Wyłącz alarm</string>
 </resources>
