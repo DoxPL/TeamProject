@@ -1,5 +1,8 @@
 package com.example.student.teamproject;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 
 public class Alert {
@@ -79,19 +82,20 @@ public class Alert {
 
     public int getRequestCode()
     {
-        String reqCode = String.valueOf(this.month) +
+        String reqCode = (this.month != 0) ? String.valueOf(month) : String.valueOf(month + 1) +
                 String.valueOf(this.day) +
                 String.valueOf(this.hour) +
                 String.valueOf(this.minute);
         return Integer.parseInt(reqCode);
     }
 
-    public static int getRequestCode(Date date)
+    public static int getRequestCode(Calendar date)
     {
-        String reqCode = String.valueOf(date.getMonth()) +
-                String.valueOf(date.getDay()) +
-                String.valueOf(date.getHours()) +
-                String.valueOf(date.getMinutes());
+        int month = date.get(Calendar.MONTH);
+        String reqCode = (month != 0) ? String.valueOf(month) : String.valueOf(month + 1) +
+                String.valueOf(date.get(Calendar.DAY_OF_MONTH)) +
+                String.valueOf(date.get(Calendar.HOUR_OF_DAY)) +
+                String.valueOf(date.get(Calendar.MINUTE));
         return Integer.parseInt(reqCode);
     }
 

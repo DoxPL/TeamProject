@@ -137,8 +137,9 @@ public class CalFragment extends Fragment {
 
                         if(formValidation(etTitle.getText().toString()))
                         {
-                            dbUtils.addItem(DateUtilities.getFullDate(currentAlert), currentAlert.getName(), currentAlert.getDescription(), alertActive);
+                            dbUtils.addItem(DateUtilities.getDate(currentAlert), currentAlert.getName(), currentAlert.getDescription(), alertActive);
                             Notification.handle(getContext(), currentAlert);
+                            //Toast.makeText(context, "" + currentAlert.getRequestCode(), Toast.LENGTH_LONG).show();
                             dialog.dismiss();
                         }
                         else {
