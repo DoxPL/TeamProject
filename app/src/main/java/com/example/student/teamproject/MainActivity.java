@@ -13,6 +13,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -40,7 +41,7 @@ public class MainActivity extends AppCompatActivity
         navigationView.setNavigationItemSelectedListener(this);
 
         FragmentManager fragmentManager = getSupportFragmentManager();
-        Fragment fragment = new CalFragment();
+        Fragment fragment = new DatePickerFragment();
         fragmentManager
                 .beginTransaction()
                 .replace(R.id.contentContainer, fragment)
@@ -113,8 +114,9 @@ public class MainActivity extends AppCompatActivity
 
         switch (id) {
             case R.id.nav_cal:
-                if (title != null && !title.equals(getString(R.string.calendar))) {
-                    fragment = new CalFragment();
+                if (title != null && !title.equals(getString(R.string.date_picker))) {
+                    fragment = new DatePickerFragment();
+                    //fragment = new CalFragment();
                 }
                 break;
             case R.id.nav_signing_in:
