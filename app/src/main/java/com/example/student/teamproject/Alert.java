@@ -99,13 +99,4 @@ public class Alert {
         return Integer.parseInt(reqCode);
     }
 
-    public int getRequestCode()
-    {
-        String reqCode = String.valueOf(this.month) +
-                String.valueOf(this.day) +
-                String.valueOf(this.hour) +
-                String.valueOf(this.minute);
-        return Integer.parseInt(reqCode);
-    }
-
 }
