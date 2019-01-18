@@ -1,0 +1,5 @@
+./local.properties
+./.gradle/4.6/*
+./app/app.iml
+./.idea/workspace.xml
+./idea/caches/*
