@@ -152,4 +152,28 @@ public class SqliteDbUtils extends SQLiteOpenHelper {
 
         return list;
     }
+
+    public NotesModel getSingleRow(String name)
+    {
+        SQLiteDatabase db = this.getReadableDatabase();
+        String query = "SELECT * FROM " + TABLE_NAME + " WHERE " + COL2_TITLE + " = \'" + name + "\'";
+        Cursor cursor = null;
+        try {
+            cursor = ((SQLiteDatabase) db).rawQuery(query, null);
+            if (cursor.getCount() > 0) {
+                cursor.moveToFirst();
+                NotesModel event = new NotesModel(cursor.getString(1),
+                        cursor.getString(2),
+                        cursor.getString(3),
+                        cursor.getInt(4) == 1
+                );
+                return event;
+            }
+        }
+        finally {
+            if(cursor != null)
+                cursor.close();
+        }
+        return null;
+    }
 }

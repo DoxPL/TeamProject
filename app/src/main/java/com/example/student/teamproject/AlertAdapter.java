@@ -14,7 +14,10 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.text.ParseException;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 public class AlertAdapter extends RecyclerView.Adapter<AlertAdapter.AlertHolder> {
@@ -43,6 +46,7 @@ public class AlertAdapter extends RecyclerView.Adapter<AlertAdapter.AlertHolder>
         alertHolder.tvDescription.setText(alert.getDescription());
         //String strDate = alert.getYear() + "." + alert.getMonth() + "." + alert.getDay() + " " + alert.getHour() + ":" + alert.getMinute();
         alertHolder.tvTime.setText(alert.getDate());
+        //Toast.makeText(context, DateUtilities.strToDate(alert.getDate(), context), Toast.LENGTH_LONG).show();
         alertHolder.setEventClickListener(new EventClickListener() {
             @Override
             public void onClick(final View view, final int pos, boolean isLongClick) {
@@ -58,6 +62,9 @@ public class AlertAdapter extends RecyclerView.Adapter<AlertAdapter.AlertHolder>
                                     dbUtils.deleteItem(alertHolder.tvTime.getText().toString(), alertHolder.tvTitle.getText().toString());
                                     list.remove(pos);
                                     notifyDataSetChanged();
+                                    Calendar date = DateUtilities.dateFormat(alert.getDate());
+                                    int requestCode = Alert.getRequestCode(date);
+                                    Notification.cancel(context, requestCode);
                                     Snackbar.make(view, context.getResources().getString(R.string.event_deleted),
                                             Snackbar.LENGTH_LONG).setAction("Action", null).show();
                                     break;

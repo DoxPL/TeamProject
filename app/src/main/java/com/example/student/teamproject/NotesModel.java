@@ -1,5 +1,14 @@
 package com.example.student.teamproject;
 
+import android.widget.Toast;
+
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
+import java.util.TimeZone;
+
 public class NotesModel {
     private String date;
     private String title;
@@ -35,6 +44,8 @@ public class NotesModel {
 //        this.minute = minute;
 
     public String getDate() {
+            //String [] monthNames = new String[] { "styczeń", "luty", "marzec", "kwiecień", "maj", "czerwiec", "lipiec", "sierpień",
+                  //  "wrzesień", "październik", "listopad", "grudzień" };
         return date;
     }
 
@@ -64,6 +75,11 @@ public class NotesModel {
 
     public void setEnabled(boolean enabled) {
         this.isEnabled = enabled;
+    }
+
+    public int getRequestCode()
+    {
+        return 0;
     }
 }
 

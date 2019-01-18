@@ -4,55 +4,46 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.annotation.StringRes;
 import android.support.v4.app.Fragment;
-import android.support.v7.app.ActionBar;
-import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.CalendarView;
 import android.widget.CompoundButton;
+import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
-import java.text.SimpleDateFormat;
 import java.util.Calendar;
-import java.util.Date;
 
 
 /**
  * A simple {@link Fragment} subclass.
  * Activities that contain this fragment must implement the
- * {@link CalFragment.OnFragmentInteractionListener} interface
+ * {@link DatePickerFragment.OnFragmentInteractionListener} interface
  * to handle interaction events.
- * Use the {@link CalFragment#newInstance} factory method to
+ * Use the {@link DatePickerFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class CalFragment extends Fragment {
+public class DatePickerFragment extends Fragment {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
-    private static final String TAG = "CalFragment";
 
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
 
-    CalendarView calView;
-    boolean alertActive;
-
+    DatePicker datePicker;
+    boolean alertActive = false;
     private OnFragmentInteractionListener mListener;
 
-    public CalFragment() {
+    public DatePickerFragment() {
         // Required empty public constructor
     }
 
@@ -62,11 +53,11 @@ public class CalFragment extends Fragment {
      *
      * @param param1 Parameter 1.
      * @param param2 Parameter 2.
-     * @return A new instance of fragment CalFragment.
+     * @return A new instance of fragment DatePickerFragment.
      */
     // TODO: Rename and change types and number of parameters
-    public static CalFragment newInstance(String param1, String param2) {
-        CalFragment fragment = new CalFragment();
+    public static DatePickerFragment newInstance(String param1, String param2) {
+        DatePickerFragment fragment = new DatePickerFragment();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);
@@ -84,16 +75,21 @@ public class CalFragment extends Fragment {
     }
 
     @Override
-    public View onCreateView(final LayoutInflater inflater, final ViewGroup container,
+    public View onCreateView(final LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_cal, container, false);
+        // Inflate the layout for this fragment
+        View view = inflater.inflate(R.layout.fragment_date_picker, container, false);
+
         final Context context = getContext();
-        calView = (CalendarView) view.findViewById(R.id.calendar);
-        setToday();
         final SqliteDbUtils dbUtils = new SqliteDbUtils(context);
-        calView.setOnDateChangeListener(new CalendarView.OnDateChangeListener() {
+        datePicker = (DatePicker) view.findViewById(R.id.datePicker);
+        Calendar calendar = Calendar.getInstance();
+        calendar.set(calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH));
+        long millis = calendar.getTimeInMillis();
+        datePicker.init(calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH),
+                new DatePicker.OnDateChangedListener() {
             @Override
-            public void onSelectedDayChange(CalendarView view, final int year, final int month, final int dayOfMonth) {
+            public void onDateChanged(DatePicker view, final int year, final int monthOfYear, final int dayOfMonth) {
                 AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(context);
                 View dialogView = inflater.inflate(R.layout.note_dialog, null);
                 dialogBuilder.setView(dialogView);
@@ -111,11 +107,10 @@ public class CalFragment extends Fragment {
                 swAlert.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                     @Override
                     public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                        if(isChecked) {
+                        if (isChecked) {
                             alertActive = true;
                             timePicker.setVisibility(View.VISIBLE);
-                        }
-                        else {
+                        } else {
                             alertActive = false;
                             timePicker.setVisibility(View.GONE);
                         }
@@ -130,42 +125,27 @@ public class CalFragment extends Fragment {
                         currentAlert.setDescription(!etDesc.getText().toString().equals("")
                                 ? etDesc.getText().toString() : getActivity().getResources().getString(R.string.noDescr));
                         currentAlert.setYear(year);
-                        currentAlert.setMonth(month);
+                        currentAlert.setMonth(monthOfYear);
                         currentAlert.setDay(dayOfMonth);
                         currentAlert.setHour(timePicker.getHour());
                         currentAlert.setMinute(timePicker.getMinute());
 
-                        if(formValidation(etTitle.getText().toString()))
-                        {
+                        if (formValidation(etTitle.getText().toString())) {
                             dbUtils.addItem(DateUtilities.getDate(currentAlert), currentAlert.getName(), currentAlert.getDescription(), alertActive);
                             Notification.handle(getContext(), currentAlert);
                             //Toast.makeText(context, "" + currentAlert.getRequestCode(), Toast.LENGTH_LONG).show();
                             dialog.dismiss();
-                        }
-                        else {
+                        } else {
                             Toast.makeText(context, getResources().getString(R.string.incorrect_title), Toast.LENGTH_LONG).show();
                         }
                     }
                 });
-
-                String date = dayOfMonth + "." + (month + 1) + "." + year;
+                String date = dayOfMonth + "." + (monthOfYear + 1) + "." + year;
                 tvDay.setText(tvDay.getText() + date);
                 dialog.show();
             }
         });
-
         return view;
-    }
-
-    private void setToday()
-    {
-        Calendar calendar = Calendar.getInstance();
-        int year = calendar.get(Calendar.YEAR);
-        int month = calendar.get(Calendar.MONTH);
-        int day = calendar.get(Calendar.DAY_OF_MONTH);
-        calendar.set(year, month, day);
-        long millis = calendar.getTimeInMillis();
-        calView.setDate(millis, true, true);
     }
 
     private boolean formValidation(String title)
@@ -174,17 +154,6 @@ public class CalFragment extends Fragment {
             return true;
         return false;
     }
-    @Override
-    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        try {
-            TopBarUtils.setTopBar(
-                    (AppCompatActivity) getActivity(), view, getString(R.string.calendar) );
-
-        } catch (NullPointerException e) {
-            Log.e(TAG, "Cannot get activity. @onViewCreated(..)");
-        }
-    }
-
 
     // TODO: Rename method, update argument and hook method into UI event
     public void onButtonPressed(Uri uri) {
@@ -196,7 +165,8 @@ public class CalFragment extends Fragment {
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        /*if (context instanceof OnFragmentInteractionListener) {
+        /*
+        if (context instanceof OnFragmentInteractionListener) {
             mListener = (OnFragmentInteractionListener) context;
         } else {
             throw new RuntimeException(context.toString()
@@ -224,17 +194,4 @@ public class CalFragment extends Fragment {
         // TODO: Update argument type and name
         void onFragmentInteraction(Uri uri);
     }
-
 }
-
-//    private void setTopBar(View view) {
-//        AppCompatActivity activity = (AppCompatActivity) getActivity();
-//
-//        try {
-//            ActionBar actionBar = activity.getSupportActionBar();
-//
-//            actionBar.setTitle(R.string.calendar);
-//        } catch (NullPointerException exception) {
-//            Log.e(TAG, "Cannot get actionBar. @setTopBar(..)");
-//        }
-//    }

@@ -12,18 +12,19 @@
     <!--<string name="calendar_api_link1">https://api.letsbuildthatapp.com/youtube/home_feed</string>-->
     <!--<string name="calendar_api_link1">http://pcb.chost.pl/app/login.php</string>-->
     <string name="calendar_api_link1">http://xor.math.uni.lodz.pl/~daniel_g/calendar-api.php</string>
-    
+
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment1">Hello blank fragment</string>
-    
+
     <!-- Accessibility strings -->
     <string name="password_visibility1">Widocznosc hasła</string>
-    
+
     <!-- NavigationView strings -->
     <string name="calendar">Kalendarz</string>
     <string name="signing_in">Logowanie</string>
     <string name="alert_list">Lista zdarzeń</string>
-    
+    <string name="date_picker">Kalendarz</string>
+
     <!-- UI strings -->
     <string name="email">Adres e-mail</string>
     <string name="password">Hasło</string>
@@ -45,5 +46,10 @@
     <string name="event_deleted">Zdarzenie zostało usunięte</string>
     <string name="dateTime">Godzina i data</string>
     <string name="noDescr">Brak opisu</string>
+    <string name="notification">Powiadomienie z organizera</string>
+    <string name="dialogTitle">Alarm</string>
+    <string name="turn_off_alert">Wyłącz alarm</string>
 
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>
