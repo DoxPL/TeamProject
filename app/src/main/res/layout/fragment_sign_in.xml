@@ -6,6 +6,7 @@
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
+    android:background="@drawable/wall_sign_in"
     >
     
     <android.support.constraint.ConstraintLayout
@@ -173,13 +174,13 @@
         <!--android:background="@drawable/blue_button_selector"-->
     
     
-    <Button
-        android:id="@+id/sign_in_get_list_button_id"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:layout_marginTop="50dp"
-        android:text="D/ getList"
-        />
+    <!--<Button-->
+        <!--android:id="@+id/sign_in_get_list_button_id"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_gravity="center"-->
+        <!--android:layout_marginTop="50dp"-->
+        <!--android:text="D/ getList"-->
+        <!--/>-->
 
 </LinearLayout>

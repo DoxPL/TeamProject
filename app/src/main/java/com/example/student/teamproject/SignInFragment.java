@@ -108,8 +108,8 @@ public class SignInFragment extends Fragment {
 
     private void setButtons() {
         try {
-            Button getListBut =
-                    (Button) getActivity().findViewById(R.id.sign_in_get_list_button_id);
+//            Button getListBut =
+//                    (Button) getActivity().findViewById(R.id.sign_in_get_list_button_id);
             Button eyeButton = (Button) getActivity().findViewById(R.id.eye_button_id);
             final EditText emailInput =
                     (EditText) getActivity().findViewById(R.id.sign_in_email_input_id);
@@ -120,14 +120,14 @@ public class SignInFragment extends Fragment {
                     (Button) getActivity().findViewById(R.id.sign_in_sign_up_button_id);
 
 
-            final List<NotesModel> fList = notesList;
-            getListBut.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-//                    Log.d("list", fList.toString());
-//                    Log.d("list.size", "" + fList.size());
-                }
-            });
+//            final List<NotesModel> fList = notesList;
+//            getListBut.setOnClickListener(new View.OnClickListener() {
+//                @Override
+//                public void onClick(View view) {
+////                    Log.d("list", fList.toString());
+////                    Log.d("list.size", "" + fList.size());
+//                }
+//            });
 
             eyeButton.setOnClickListener(new View.OnClickListener() {
                 boolean isClicked = false;
