@@ -3,8 +3,10 @@ package com.example.student.teamproject;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -34,6 +36,8 @@ public class DatePickerFragment extends Fragment {
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
+
+    private static final String TAG = "DatePickerFragment";
 
     // TODO: Rename and change types of parameters
     private String mParam1;
@@ -88,69 +92,76 @@ public class DatePickerFragment extends Fragment {
         long millis = calendar.getTimeInMillis();
         datePicker.init(calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH),
                 new DatePicker.OnDateChangedListener() {
-            @Override
-            public void onDateChanged(DatePicker view, final int year, final int monthOfYear, final int dayOfMonth) {
-                AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(context);
-                View dialogView = inflater.inflate(R.layout.note_dialog, null);
-                dialogBuilder.setView(dialogView);
-                final AlertDialog dialog = dialogBuilder.create();
-                alertActive = false;
-                TextView tvDay = (TextView) dialogView.findViewById(R.id.tvDay);
-                final EditText etTitle = (EditText) dialogView.findViewById(R.id.etTitle);
-                final EditText etDesc = (EditText) dialogView.findViewById(R.id.etDescr);
-                Switch swAlert = (Switch) dialogView.findViewById(R.id.swAlert);
-                Button btnSave = (Button) dialogView.findViewById(R.id.btnSave);
-                final TimePicker timePicker = (TimePicker) dialogView.findViewById(R.id.timePicker);
-                timePicker.setIs24HourView(true);
-                timePicker.setVisibility(View.GONE);
-
-                swAlert.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                     @Override
-                    public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                        if (isChecked) {
-                            alertActive = true;
-                            timePicker.setVisibility(View.VISIBLE);
-                        } else {
-                            alertActive = false;
-                            timePicker.setVisibility(View.GONE);
-                        }
+                    public void onDateChanged(DatePicker view, final int year, final int monthOfYear, final int dayOfMonth) {
+                        Log.d(TAG, "Date clicked. @onDateChanged(..)");
+
+                        AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(context);
+                        View dialogView = inflater.inflate(R.layout.note_dialog, null);
+                        dialogBuilder.setView(dialogView);
+                        final AlertDialog dialog = dialogBuilder.create();
+                        alertActive = false;
+                        TextView tvDay = (TextView) dialogView.findViewById(R.id.tvDay);
+                        final EditText etTitle = (EditText) dialogView.findViewById(R.id.etTitle);
+                        final EditText etDesc = (EditText) dialogView.findViewById(R.id.etDescr);
+                        Switch swAlert = (Switch) dialogView.findViewById(R.id.swAlert);
+                        Button btnSave = (Button) dialogView.findViewById(R.id.btnSave);
+                        final TimePicker timePicker = (TimePicker) dialogView.findViewById(R.id.timePicker);
+                        timePicker.setIs24HourView(true);
+                        timePicker.setVisibility(View.GONE);
+
+                        swAlert.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                            @Override
+                            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                                if (isChecked) {
+                                    alertActive = true;
+                                    timePicker.setVisibility(View.VISIBLE);
+                                } else {
+                                    alertActive = false;
+                                    timePicker.setVisibility(View.GONE);
+                                }
+                            }
+                        });
+
+                        btnSave.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                Alert currentAlert = new Alert();
+                                currentAlert.setName(etTitle.getText().toString());
+                                currentAlert.setDescription(!etDesc.getText().toString().equals("")
+                                        ? etDesc.getText().toString() : getActivity().getResources().getString(R.string.noDescr));
+                                currentAlert.setYear(year);
+                                currentAlert.setMonth(monthOfYear);
+                                currentAlert.setDay(dayOfMonth);
+
+                                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                                    currentAlert.setHour(timePicker.getHour());
+                                    currentAlert.setMinute(timePicker.getMinute());
+                                } else {
+                                    currentAlert.setHour(timePicker.getCurrentHour());
+                                    currentAlert.setMinute(timePicker.getCurrentMinute());
+                                }
+
+                                if (formValidation(etTitle.getText().toString())) {
+                                    dbUtils.addItem(DateUtilities.getDate(currentAlert), currentAlert.getName(), currentAlert.getDescription(), alertActive);
+                                    Notification.handle(getContext(), currentAlert);
+                                    //Toast.makeText(context, "" + currentAlert.getRequestCode(), Toast.LENGTH_LONG).show();
+                                    dialog.dismiss();
+                                } else {
+                                    Toast.makeText(context, getResources().getString(R.string.incorrect_title), Toast.LENGTH_LONG).show();
+                                }
+                            }
+                        });
+                        String date = dayOfMonth + "." + (monthOfYear + 1) + "." + year;
+                        tvDay.setText(tvDay.getText() + date);
+                        dialog.show();
                     }
                 });
-
-                btnSave.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        Alert currentAlert = new Alert();
-                        currentAlert.setName(etTitle.getText().toString());
-                        currentAlert.setDescription(!etDesc.getText().toString().equals("")
-                                ? etDesc.getText().toString() : getActivity().getResources().getString(R.string.noDescr));
-                        currentAlert.setYear(year);
-                        currentAlert.setMonth(monthOfYear);
-                        currentAlert.setDay(dayOfMonth);
-                        currentAlert.setHour(timePicker.getHour());
-                        currentAlert.setMinute(timePicker.getMinute());
-
-                        if (formValidation(etTitle.getText().toString())) {
-                            dbUtils.addItem(DateUtilities.getDate(currentAlert), currentAlert.getName(), currentAlert.getDescription(), alertActive);
-                            Notification.handle(getContext(), currentAlert);
-                            //Toast.makeText(context, "" + currentAlert.getRequestCode(), Toast.LENGTH_LONG).show();
-                            dialog.dismiss();
-                        } else {
-                            Toast.makeText(context, getResources().getString(R.string.incorrect_title), Toast.LENGTH_LONG).show();
-                        }
-                    }
-                });
-                String date = dayOfMonth + "." + (monthOfYear + 1) + "." + year;
-                tvDay.setText(tvDay.getText() + date);
-                dialog.show();
-            }
-        });
         return view;
     }
 
-    private boolean formValidation(String title)
-    {
-        if(title.matches(".{3,}"))
+    private boolean formValidation(String title) {
+        if (title.matches(".{3,}"))
             return true;
         return false;
     }
